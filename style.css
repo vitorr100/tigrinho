@@ -66,8 +66,7 @@ body {
             #190000 100%
         );
 
-    border:
-        3px solid #d99a25;
+    border: 3px solid #d99a25;
 
     border-radius: 25px;
 
@@ -78,6 +77,9 @@ body {
 
         inset 0 0 35px
         rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -152,8 +154,7 @@ body {
 
     border-radius: 9px;
 
-    border:
-        1px solid #c78e24;
+    border: 1px solid #c78e24;
 
     background:
         linear-gradient(
@@ -213,7 +214,7 @@ body {
 
     right: 0;
 
-    width: 210px;
+    width: 240px;
 
     padding: 8px;
 
@@ -224,8 +225,7 @@ body {
             #1c0000
         );
 
-    border:
-        1px solid #d49a28;
+    border: 1px solid #d49a28;
 
     border-radius: 10px;
 
@@ -246,37 +246,77 @@ body {
 }
 
 
-/* =========================================
-   BOTÕES DO MENU
-========================================= */
+.balance-action {
 
-.balance-menu button {
+    padding: 6px;
 
-    width: 100%;
+    margin-bottom: 5px;
+}
 
-    padding: 12px 8px;
 
-    margin: 3px 0;
+.balance-action strong {
 
-    border: none;
+    display: block;
 
-    border-radius: 7px;
-
-    background: #4a0704;
+    margin-bottom: 7px;
 
     color: #ffe08a;
 
-    font-size: 13px;
+    font-size: 12px;
+}
 
-    font-weight: 700;
+
+.value-input {
+
+    display: flex;
+
+    gap: 5px;
+}
+
+
+.value-input input {
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 8px;
+
+    border: 1px solid #9c6d17;
+
+    border-radius: 6px;
+
+    outline: none;
+
+    background: #180000;
+
+    color: white;
+}
+
+
+.value-input button {
+
+    padding: 8px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #a66c0a;
+
+    color: white;
+
+    font-size: 9px;
+
+    font-weight: 800;
 
     cursor: pointer;
 }
 
 
-.balance-menu button:hover {
+.value-input button:hover {
 
-    background: #71100a;
+    background: #d59618;
 }
 
 
@@ -297,6 +337,8 @@ body {
     flex-direction: column;
 
     align-items: center;
+
+    position: relative;
 }
 
 
@@ -369,8 +411,7 @@ body {
 
     border-radius: 12px;
 
-    border:
-        2px solid #b87912;
+    border: 2px solid #b87912;
 
     background:
         linear-gradient(
@@ -390,7 +431,7 @@ body {
 
 
 /* =========================================
-   PREENCHIMENTO DOURADO
+   PREENCHIMENTO
 ========================================= */
 
 .progress-fill {
@@ -496,8 +537,7 @@ body {
 
     background: #170005;
 
-    border:
-        3px solid #4e1c05;
+    border: 3px solid #4e1c05;
 
     box-shadow:
         inset 0 0 25px
@@ -551,7 +591,9 @@ body {
 
     align-items: center;
 
-    overflow: hidden;
+    overflow: visible;
+
+    position: relative;
 
     border-bottom:
         1px solid
@@ -616,6 +658,96 @@ body {
 
 
 /* =========================================
+   LINHAS A PARTIR DE 3
+========================================= */
+
+.symbol-cell.winning-line {
+
+    position: relative;
+
+    z-index: 10;
+
+    box-shadow:
+
+        inset 0 0 10px
+        rgba(255, 220, 70, 0.4),
+
+        0 0 12px
+        rgba(255, 210, 50, 0.8);
+}
+
+
+/* =========================================
+   LINHA HORIZONTAL
+========================================= */
+
+.symbol-cell.winning-horizontal::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 3px;
+
+    right: 3px;
+
+    top: 50%;
+
+    height: 4px;
+
+    transform: translateY(-50%);
+
+    background: #ffe45c;
+
+    border-radius: 5px;
+
+    box-shadow:
+
+        0 0 6px #ffd000,
+
+        0 0 12px
+        rgba(255, 190, 0, 0.9);
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   LINHA VERTICAL
+========================================= */
+
+.symbol-cell.winning-vertical::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 3px;
+
+    bottom: 3px;
+
+    left: 50%;
+
+    width: 4px;
+
+    transform: translateX(-50%);
+
+    background: #ffe45c;
+
+    border-radius: 5px;
+
+    box-shadow:
+
+        0 0 6px #ffd000,
+
+        0 0 12px
+        rgba(255, 190, 0, 0.9);
+
+    pointer-events: none;
+}
+
+
+/* =========================================
    RESULTADO
 ========================================= */
 
@@ -648,11 +780,17 @@ body {
     color: #ffe45c;
 
     overflow: hidden;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-align: center;
 }
 
 
 /* =========================================
-   CONTROLES DA APOSTA
+   CONTROLES
 ========================================= */
 
 .controls {
@@ -772,11 +910,37 @@ body {
 }
 
 
-.bet strong {
+/* =========================================
+   APOSTA EDITÁVEL
+========================================= */
+
+.bet-input {
+
+    width: 100px;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #ffe35d;
 
     font-size: 19px;
 
-    color: #ffe35d;
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+.bet-input:focus {
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 8px
+        rgba(255, 220, 80, 0.7);
 }
 
 
@@ -841,6 +1005,14 @@ body {
 }
 
 
+.spin-button:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
 /* =========================================
    AUTO GIRO
 ========================================= */
@@ -894,7 +1066,147 @@ body {
 
 
 /* =========================================
-   TABLET
+   EFEITO DA RODADA ESPECIAL
+========================================= */
+
+.special-active .symbol-cell {
+
+    animation:
+        goldenGlow 0.8s infinite alternate;
+}
+
+
+@keyframes goldenGlow {
+
+    from {
+
+        box-shadow:
+            inset 0 0 10px
+            rgba(0, 0, 0, 0.8),
+
+            0 0 3px
+            rgba(255, 190, 0, 0.2);
+    }
+
+    to {
+
+        box-shadow:
+            inset 0 0 10px
+            rgba(0, 0, 0, 0.8),
+
+            0 0 15px
+            rgba(255, 210, 50, 0.9);
+    }
+}
+
+
+/* =========================================
+   JACKPOT
+========================================= */
+
+.jackpot-effect {
+
+    animation:
+        jackpotShake 0.12s infinite;
+}
+
+
+@keyframes jackpotShake {
+
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translate(4px, -2px);
+    }
+
+    50% {
+        transform: translate(-4px, 2px);
+    }
+
+    75% {
+        transform: translate(2px, 3px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+
+/* =========================================
+   MENSAGEM DE GANHO
+========================================= */
+
+.win-message {
+
+    position: fixed;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.5);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    padding:
+        25px 45px;
+
+    border:
+        3px solid #ffd43d;
+
+    border-radius: 15px;
+
+    background:
+        radial-gradient(
+            circle,
+            #570909,
+            #1c0202
+        );
+
+    color: white;
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    box-shadow:
+
+        0 0 25px
+        rgba(255, 200, 0, 0.8),
+
+        0 0 70px
+        rgba(255, 160, 0, 0.4);
+
+    transition:
+        0.3s;
+}
+
+
+.win-message.show {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+
+/* =========================================
+   RESPONSIVO
 ========================================= */
 
 @media (max-width: 1000px) {
@@ -904,24 +1216,25 @@ body {
     }
 
     .game {
+
         height: auto;
+
         min-height: 92vh;
     }
 
     .slots {
+
         height: 385px;
     }
 
     .reel > div img {
+
         width: 60px;
+
         height: 60px;
     }
 }
 
-
-/* =========================================
-   TABLET PEQUENO
-========================================= */
 
 @media (max-width: 700px) {
 
@@ -946,75 +1259,91 @@ body {
     }
 
     .logo {
+
         font-size: 25px;
     }
 
     .slots {
+
         height: 365px;
     }
 
     .reel > div img {
+
         width: 45px;
+
         height: 45px;
     }
 
     .seven {
+
         font-size: 42px;
     }
 }
 
 
-/* =========================================
-   CELULAR
-========================================= */
-
 @media (max-width: 500px) {
 
     .logo {
+
         font-size: 21px;
     }
 
     .balance {
+
         min-width: 120px;
     }
 
     .slots {
+
         height: 335px;
     }
 
     .reel > div img {
+
         width: 35px;
+
         height: 35px;
     }
 
     .seven {
+
         font-size: 32px;
     }
 
     .controls {
+
         gap: 10px;
     }
 
     .bet-button {
+
         width: 44px;
+
         height: 44px;
+
         font-size: 24px;
     }
 
     .bet {
+
         min-width: 120px;
     }
 
     .spin-button {
+
         width: 140px;
+
         height: 60px;
     }
 
     .special-title {
+
         font-size: 13px;
     }
 
     .progress-bar {
+
         height: 16px;
     }
 }
