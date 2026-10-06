@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,14 +25,22 @@
 
                 <button class="balance" type="button">
                     <small>SALDO</small>
-                    <strong id="balanceValue">10.000</strong>
+
+                    <strong id="balanceValue">
+                        10.000
+                    </strong>
                 </button>
 
+
+                <!-- MENU DO SALDO -->
                 <div class="balance-menu">
 
+                    <!-- DEPOSITAR -->
                     <div class="balance-action">
 
-                        <strong>＋ Recarregar saldo</strong>
+                        <strong>
+                            ＋ Recarregar saldo
+                        </strong>
 
                         <div class="value-input">
 
@@ -54,9 +63,12 @@
                     </div>
 
 
+                    <!-- SACAR -->
                     <div class="balance-action">
 
-                        <strong>− Sacar saldo</strong>
+                        <strong>
+                            − Sacar saldo
+                        </strong>
 
                         <div class="value-input">
 
@@ -86,9 +98,12 @@
 
 
         <!-- MÁQUINA -->
-        <section class="machine" id="machine">
+        <section
+            class="machine"
+            id="machine"
+        >
 
-            <!-- LUZES DOURADAS -->
+            <!-- LUZES -->
             <div class="gold-lights">
 
                 <span></span>
@@ -110,11 +125,15 @@
 
 
             <!-- RODADA ESPECIAL -->
-            <div class="special-round" id="specialRound">
+            <div
+                class="special-round"
+                id="specialRound"
+            >
 
                 <div class="special-title">
                     ✦ RODADA ESPECIAL ✦
                 </div>
+
 
                 <div class="progress-area">
 
@@ -127,6 +146,7 @@
 
                     </div>
 
+
                     <span
                         class="progress-value"
                         id="progressValue"
@@ -135,11 +155,6 @@
                     </span>
 
                 </div>
-
-                <div
-                    class="special-counter"
-                    id="specialCounter"
-                ></div>
 
             </div>
 
@@ -218,10 +233,12 @@
             <div
                 class="result"
                 id="result"
-            ></div>
+            >
+                GIRE PARA JOGAR
+            </div>
 
 
-            <!-- APOSTA -->
+            <!-- CONTROLES DA APOSTA -->
             <section class="controls">
 
                 <button
@@ -235,11 +252,19 @@
 
                 <div class="bet">
 
-                    <small>APOSTA</small>
+                    <small>
+                        APOSTA
+                    </small>
 
-                    <strong id="betValue">
-                        50
-                    </strong>
+                    <input
+                        id="betValue"
+                        class="bet-input"
+                        type="number"
+                        min="10"
+                        step="10"
+                        value="50"
+                        inputmode="numeric"
+                    >
 
                 </div>
 
@@ -265,7 +290,7 @@
             </button>
 
 
-            <!-- AUTO -->
+            <!-- AUTO GIRO -->
             <button
                 class="auto-button"
                 id="autoButton"
@@ -282,4 +307,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
