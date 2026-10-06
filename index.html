@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ROYAL CASH</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="game">
+
+        <!-- TOPO -->
+        <header class="top">
+
+            <div class="logo">
+                ROYAL CASH
+            </div>
+
+            <div class="balance-area">
+
+                <button class="balance" type="button">
+                    <small>SALDO</small>
+                    <strong id="balanceValue">10.000</strong>
+                </button>
+
+                <div class="balance-menu">
+
+                    <div class="balance-action">
+
+                        <strong>＋ Recarregar saldo</strong>
+
+                        <div class="value-input">
+
+                            <input
+                                id="depositInput"
+                                type="number"
+                                min="1"
+                                placeholder="Digite o valor"
+                            >
+
+                            <button
+                                id="depositButton"
+                                type="button"
+                            >
+                                DEPOSITAR
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="balance-action">
+
+                        <strong>− Sacar saldo</strong>
+
+                        <div class="value-input">
+
+                            <input
+                                id="withdrawInput"
+                                type="number"
+                                min="1"
+                                placeholder="Digite o valor"
+                            >
+
+                            <button
+                                id="withdrawButton"
+                                type="button"
+                            >
+                                SACAR
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- MÁQUINA -->
+        <section class="machine" id="machine">
+
+            <!-- LUZES DOURADAS -->
+            <div class="gold-lights">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+
+            <!-- RODADA ESPECIAL -->
+            <div class="special-round" id="specialRound">
+
+                <div class="special-title">
+                    ✦ RODADA ESPECIAL ✦
+                </div>
+
+                <div class="progress-area">
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            id="specialProgress"
+                        ></div>
+
+                    </div>
+
+                    <span
+                        class="progress-value"
+                        id="progressValue"
+                    >
+                        0%
+                    </span>
+
+                </div>
+
+                <div
+                    class="special-counter"
+                    id="specialCounter"
+                ></div>
+
+            </div>
+
+
+            <!-- SLOT MACHINE -->
+            <div
+                class="slot-machine"
+                id="slotMachine"
+            >
+
+                <div
+                    class="slots"
+                    id="slots"
+                >
+
+                    <!-- COLUNA 1 -->
+                    <div class="reel">
+
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+
+                    </div>
+
+
+                    <!-- COLUNA 2 -->
+                    <div class="reel">
+
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+
+                    </div>
+
+
+                    <!-- COLUNA 3 -->
+                    <div class="reel">
+
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+
+                    </div>
+
+
+                    <!-- COLUNA 4 -->
+                    <div class="reel">
+
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+
+                    </div>
+
+
+                    <!-- COLUNA 5 -->
+                    <div class="reel">
+
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+                        <div class="symbol-cell"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTADO -->
+            <div
+                class="result"
+                id="result"
+            ></div>
+
+
+            <!-- APOSTA -->
+            <section class="controls">
+
+                <button
+                    class="bet-button"
+                    id="decreaseBet"
+                    type="button"
+                >
+                    −
+                </button>
+
+
+                <div class="bet">
+
+                    <small>APOSTA</small>
+
+                    <strong id="betValue">
+                        50
+                    </strong>
+
+                </div>
+
+
+                <button
+                    class="bet-button"
+                    id="increaseBet"
+                    type="button"
+                >
+                    +
+                </button>
+
+            </section>
+
+
+            <!-- GIRAR -->
+            <button
+                class="spin-button"
+                id="spinButton"
+                type="button"
+            >
+                GIRAR
+            </button>
+
+
+            <!-- AUTO -->
+            <button
+                class="auto-button"
+                id="autoButton"
+                type="button"
+            >
+                AUTO GIRO
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
