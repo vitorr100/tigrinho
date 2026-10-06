@@ -1,6 +1,11 @@
-/* =========================================
+/* =====================================================
+   ROYAL CASH
+   ===================================================== */
+
+
+/* =====================================================
    CONFIGURAÇÃO
-========================================= */
+===================================================== */
 
 const CONFIG = {
 
@@ -18,11 +23,11 @@ const CONFIG = {
 
         diamante: 1.5,
 
-        saco: 2
+        saco: 2,
+
+        sete: 10
 
     },
-
-    jackpotInicial: 5000,
 
     progressoPorEvento: 20,
 
@@ -35,158 +40,88 @@ const CONFIG = {
 };
 
 
+/* =====================================================
+   ESTADO DO JOGO
+===================================================== */
 
-/* =========================================
-   ELEMENTOS HTML
-========================================= */
+let saldo = CONFIG.saldoInicial;
 
-const balanceValue =
-    document.getElementById(
-        "balanceValue"
-    );
-
-
-const betValue =
-    document.getElementById(
-        "betValue"
-    );
-
-
-const specialProgress =
-    document.getElementById(
-        "specialProgress"
-    );
-
-
-const progressValue =
-    document.getElementById(
-        "progressValue"
-    );
-
-
-const specialCounter =
-    document.getElementById(
-        "specialCounter"
-    );
-
-
-const result =
-    document.getElementById(
-        "result"
-    );
-
-
-const spinButton =
-    document.getElementById(
-        "spinButton"
-    );
-
-
-const autoButton =
-    document.getElementById(
-        "autoButton"
-    );
-
-
-const decreaseBet =
-    document.getElementById(
-        "decreaseBet"
-    );
-
-
-const increaseBet =
-    document.getElementById(
-        "increaseBet"
-    );
-
-
-const machine =
-    document.getElementById(
-        "machine"
-    );
-
-
-
-/* =========================================
-   VARIÁVEIS DO JOGO
-========================================= */
-
-let saldo =
-    CONFIG.saldoInicial;
-
-
-let aposta =
-    CONFIG.apostaInicial;
-
+let aposta = CONFIG.apostaInicial;
 
 let progressoEspecial = 0;
 
-
 let rodadasEspeciais = 0;
 
+let girando = false;
 
-let jogando = false;
-
-
-let autoGirando = false;
+let autoGiro = false;
 
 
-let jackpot =
-    CONFIG.jackpotInicial;
+/* =====================================================
+   ELEMENTOS HTML
+===================================================== */
+
+const balanceValue =
+    document.getElementById("balanceValue");
+
+const betValue =
+    document.getElementById("betValue");
+
+const specialProgress =
+    document.getElementById("specialProgress");
+
+const progressValue =
+    document.getElementById("progressValue");
+
+const result =
+    document.getElementById("result");
+
+const spinButton =
+    document.getElementById("spinButton");
+
+const autoButton =
+    document.getElementById("autoButton");
+
+const decreaseBet =
+    document.getElementById("decreaseBet");
+
+const increaseBet =
+    document.getElementById("increaseBet");
+
+const depositInput =
+    document.getElementById("depositInput");
+
+const depositButton =
+    document.getElementById("depositButton");
+
+const withdrawInput =
+    document.getElementById("withdrawInput");
+
+const withdrawButton =
+    document.getElementById("withdrawButton");
+
+const machine =
+    document.getElementById("machine");
 
 
-
-/* =========================================
+/* =====================================================
    SÍMBOLOS
-========================================= */
+===================================================== */
 
-const SYMBOLS = {
+const simbolos = [
 
-    cereja: {
+    "cereja",
 
-        nome: "CEREJA",
+    "diamante",
 
-        imagem:
-            "assets/cereja.png"
+    "saco",
 
-    },
+    "sete"
 
-
-    diamante: {
-
-        nome: "DIAMANTE",
-
-        imagem:
-            "assets/diamante.png"
-
-    },
+];
 
 
-    saco: {
-
-        nome: "OURO",
-
-        imagem:
-            "assets/saco-moedas.png"
-
-    },
-
-
-    sete: {
-
-        nome: "7"
-
-    }
-
-};
-
-
-
-/* =========================================
-   PESO DOS SÍMBOLOS
-========================================= */
-
-const SYMBOL_WEIGHTS = {
+const pesos = {
 
     cereja: 40,
 
@@ -199,99 +134,48 @@ const SYMBOL_WEIGHTS = {
 };
 
 
-
-/* =========================================
-   FORMATAR NÚMEROS
-========================================= */
-
-function formatarNumero(numero) {
-
-    return numero.toLocaleString(
-        "pt-BR"
-    );
-
-}
-
-
-
-/* =========================================
+/* =====================================================
    ATUALIZAR INTERFACE
-========================================= */
+===================================================== */
 
 function atualizarInterface() {
 
     balanceValue.textContent =
-        formatarNumero(
-            saldo
-        );
+        saldo.toLocaleString("pt-BR", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
 
-
-    betValue.textContent =
-        formatarNumero(
-            aposta
-        );
-
+    betValue.value = aposta;
 
     specialProgress.style.width =
         `${progressoEspecial}%`;
 
-
     progressValue.textContent =
         `${progressoEspecial}%`;
-
-
-    if (
-        rodadasEspeciais > 0
-    ) {
-
-        specialCounter.textContent =
-            `✦ ${rodadasEspeciais} RODADA(S) ESPECIAL(IS) DISPONÍVEL(IS) ✦`;
-
-    }
-
-    else {
-
-        specialCounter.textContent =
-            "";
-
-    }
 
 }
 
 
+/* =====================================================
+   SORTEAR SÍMBOLO
+===================================================== */
 
-/* =========================================
-   ESCOLHER SÍMBOLO
-========================================= */
+function sortearSimbolo() {
 
-function escolherSimbolo() {
+    const totalPeso =
+        Object.values(pesos)
+            .reduce((a, b) => a + b, 0);
 
-    const total =
-        Object.values(
-            SYMBOL_WEIGHTS
-        ).reduce(
-            (a, b) => a + b,
-            0
-        );
+    let numero =
+        Math.random() * totalPeso;
 
 
-    let sorteio =
-        Math.random() * total;
+    for (const simbolo of simbolos) {
 
+        numero -= pesos[simbolo];
 
-    for (
-        const simbolo in SYMBOL_WEIGHTS
-    ) {
-
-        sorteio -=
-            SYMBOL_WEIGHTS[
-                simbolo
-            ];
-
-
-        if (
-            sorteio <= 0
-        ) {
+        if (numero <= 0) {
 
             return simbolo;
 
@@ -299,133 +183,131 @@ function escolherSimbolo() {
 
     }
 
-
     return "cereja";
-
 }
 
 
+/* =====================================================
+   CRIAR ELEMENTO VISUAL
+===================================================== */
 
-/* =========================================
-   GERAR GRADE 5 x 4
-========================================= */
+function criarSimboloElemento(simbolo) {
+
+    const elemento =
+        document.createElement("div");
+
+    elemento.className =
+        "symbol-cell";
+
+
+    if (simbolo === "sete") {
+
+        const sete =
+            document.createElement("span");
+
+        sete.className = "seven";
+
+        sete.textContent = "7";
+
+        elemento.appendChild(sete);
+
+    }
+
+    else {
+
+        const img =
+            document.createElement("img");
+
+
+        // CAMINHO CORRIGIDO PARA A PASTA ASSETS
+        if (simbolo === "cereja") {
+
+            img.src = "assets/cereja.png";
+
+            img.alt = "Cereja";
+
+        }
+
+        else if (simbolo === "diamante") {
+
+            img.src = "assets/diamante.png";
+
+            img.alt = "Diamante";
+
+        }
+
+        else if (simbolo === "saco") {
+
+            img.src = "assets/saco-moedas.png";
+
+            img.alt = "Ouro";
+
+        }
+
+
+        elemento.appendChild(img);
+
+    }
+
+
+    return elemento;
+}
+
+
+/* =====================================================
+   GERAR GRADE
+===================================================== */
 
 function gerarGrade() {
 
     const grade = [];
 
+    for (let linha = 0; linha < 4; linha++) {
 
-    for (
-        let coluna = 0;
-        coluna < 5;
-        coluna++
-    ) {
+        grade[linha] = [];
 
-        grade[coluna] = [];
+        for (let coluna = 0; coluna < 5; coluna++) {
 
-
-        for (
-            let linha = 0;
-            linha < 4;
-            linha++
-        ) {
-
-            grade[coluna][linha] =
-                escolherSimbolo();
+            grade[linha][coluna] =
+                sortearSimbolo();
 
         }
 
     }
-
 
     return grade;
-
 }
 
 
+/* =====================================================
+   MOSTRAR GRADE
+===================================================== */
 
-/* =========================================
-   RENDERIZAR GRADE
-========================================= */
-
-function renderizarGrade(
-    grade
-) {
+function mostrarGrade(grade) {
 
     const reels =
-        document.querySelectorAll(
-            ".reel"
-        );
+        document.querySelectorAll(".reel");
 
 
-    for (
-        let coluna = 0;
-        coluna < 5;
-        coluna++
-    ) {
+    for (let coluna = 0; coluna < 5; coluna++) {
 
-        for (
-            let linha = 0;
-            linha < 4;
-            linha++
-        ) {
-
-            const celula =
-                reels[coluna]
-                    .children[linha];
+        const cells =
+            reels[coluna]
+                .querySelectorAll(".symbol-cell");
 
 
-            celula.className =
-                "symbol-cell";
+        for (let linha = 0; linha < 4; linha++) {
 
+            const antigo =
+                cells[linha];
 
-            celula.innerHTML =
-                "";
-
-
-            const simbolo =
-                grade[coluna][linha];
-
-
-            const dados =
-                SYMBOLS[simbolo];
-
-
-            if (
-                simbolo === "sete"
-            ) {
-
-                celula.classList.add(
-                    "seven"
+            const novo =
+                criarSimboloElemento(
+                    grade[linha][coluna]
                 );
 
 
-                celula.textContent =
-                    "7";
-
-            }
-
-            else {
-
-                const imagem =
-                    document.createElement(
-                        "img"
-                    );
-
-
-                imagem.src =
-                    dados.imagem;
-
-
-                imagem.alt =
-                    dados.nome;
-
-
-                celula.appendChild(
-                    imagem
-                );
-
-            }
+            antigo.replaceWith(novo);
 
         }
 
@@ -434,308 +316,157 @@ function renderizarGrade(
 }
 
 
+/* =====================================================
+   ANIMAÇÃO DOS ROLOS
+===================================================== */
 
-/* =========================================
+async function animarRolos(duracao) {
+
+    const inicio =
+        Date.now();
+
+
+    while (Date.now() - inicio < duracao) {
+
+        const grade =
+            gerarGrade();
+
+        mostrarGrade(grade);
+
+
+        await esperar(65);
+
+    }
+
+}
+
+
+/* =====================================================
    ESPERAR
-========================================= */
+===================================================== */
 
 function esperar(ms) {
 
     return new Promise(
-        resolve =>
-            setTimeout(
-                resolve,
-                ms
-            )
+        resolve => setTimeout(resolve, ms)
     );
 
 }
 
 
+/* =====================================================
+   ENCONTRAR LINHAS
+===================================================== */
 
-/* =========================================
-   ANIMAÇÃO DOS SLOTS
-========================================= */
-
-async function animarReels(
-    especial
-) {
-
-    const intervalo = 65;
-
-
-    const quantidadeFrames =
-        especial
-
-            ? Math.floor(
-                CONFIG.duracaoRodadaEspecial /
-                intervalo
-            )
-
-            : 14;
-
-
-    for (
-        let frame = 0;
-        frame < quantidadeFrames;
-        frame++
-    ) {
-
-        renderizarGrade(
-            gerarGrade()
-        );
-
-
-        await esperar(
-            intervalo
-        );
-
-    }
-
-}
-
-
-
-/* =================================================
-   ANALISAR LINHAS HORIZONTAIS E VERTICAIS
-================================================= */
-
-function analisarLinhas(
-    grade
-) {
+function analisarLinhas(grade) {
 
     const linhas = [];
 
 
-    /* =========================================
-       HORIZONTAL
-    ========================================= */
-
-    for (
-        let linha = 0;
-        linha < 4;
-        linha++
-    ) {
-
-        let simboloAtual =
-            grade[0][linha];
-
+    for (let linha = 0; linha < 4; linha++) {
 
         let inicio = 0;
 
-
-        let quantidade = 1;
-
-
-        for (
-            let coluna = 1;
-            coluna < 5;
-            coluna++
-        ) {
+        while (inicio < 5) {
 
             const simbolo =
-                grade[coluna][linha];
+                grade[linha][inicio];
+
+            let fim =
+                inicio + 1;
 
 
-            if (
-                simbolo ===
-                simboloAtual
+            while (
+                fim < 5 &&
+                grade[linha][fim] === simbolo
             ) {
 
-                quantidade++;
+                fim++;
 
             }
 
-            else {
 
-                if (
-                    quantidade >= 3
-                ) {
-
-                    linhas.push({
-
-                        tipo:
-                            "horizontal",
-
-                        linha:
-                            linha,
-
-                        simbolo:
-                            simboloAtual,
-
-                        inicio:
-                            inicio,
-
-                        fim:
-                            coluna - 1,
-
-                        quantidade:
-                            quantidade
-
-                    });
-
-                }
+            const quantidade =
+                fim - inicio;
 
 
-                simboloAtual =
-                    simbolo;
+            if (quantidade >= 3) {
 
+                linhas.push({
 
-                inicio =
-                    coluna;
+                    orientacao: "horizontal",
 
+                    simbolo: simbolo,
 
-                quantidade =
-                    1;
+                    quantidade: quantidade,
+
+                    linha: linha,
+
+                    inicio: inicio,
+
+                    fim: fim - 1
+
+                });
 
             }
 
-        }
 
-
-        if (
-            quantidade >= 3
-        ) {
-
-            linhas.push({
-
-                tipo:
-                    "horizontal",
-
-                linha:
-                    linha,
-
-                simbolo:
-                    simboloAtual,
-
-                inicio:
-                    inicio,
-
-                fim:
-                    4,
-
-                quantidade:
-                    quantidade
-
-            });
+            inicio = fim;
 
         }
 
     }
 
 
-
-    /* =========================================
-       VERTICAL
-    ========================================= */
-
-    for (
-        let coluna = 0;
-        coluna < 5;
-        coluna++
-    ) {
-
-        let simboloAtual =
-            grade[coluna][0];
-
+    for (let coluna = 0; coluna < 5; coluna++) {
 
         let inicio = 0;
 
-
-        let quantidade = 1;
-
-
-        for (
-            let linha = 1;
-            linha < 4;
-            linha++
-        ) {
+        while (inicio < 4) {
 
             const simbolo =
-                grade[coluna][linha];
+                grade[inicio][coluna];
+
+            let fim =
+                inicio + 1;
 
 
-            if (
-                simbolo ===
-                simboloAtual
+            while (
+                fim < 4 &&
+                grade[fim][coluna] === simbolo
             ) {
 
-                quantidade++;
+                fim++;
 
             }
 
-            else {
 
-                if (
-                    quantidade >= 3
-                ) {
-
-                    linhas.push({
-
-                        tipo:
-                            "vertical",
-
-                        coluna:
-                            coluna,
-
-                        simbolo:
-                            simboloAtual,
-
-                        inicio:
-                            inicio,
-
-                        fim:
-                            linha - 1,
-
-                        quantidade:
-                            quantidade
-
-                    });
-
-                }
+            const quantidade =
+                fim - inicio;
 
 
-                simboloAtual =
-                    simbolo;
+            if (quantidade >= 3) {
 
+                linhas.push({
 
-                inicio =
-                    linha;
+                    orientacao: "vertical",
 
+                    simbolo: simbolo,
 
-                quantidade =
-                    1;
+                    quantidade: quantidade,
+
+                    coluna: coluna,
+
+                    inicio: inicio,
+
+                    fim: fim - 1
+
+                });
 
             }
 
-        }
 
-
-        if (
-            quantidade >= 3
-        ) {
-
-            linhas.push({
-
-                tipo:
-                    "vertical",
-
-                coluna:
-                    coluna,
-
-                simbolo:
-                    simboloAtual,
-
-                inicio:
-                    inicio,
-
-                fim:
-                    3,
-
-                quantidade:
-                    quantidade
-
-            });
+            inicio = fim;
 
         }
 
@@ -747,504 +478,571 @@ function analisarLinhas(
 }
 
 
-
-/* =========================================
+/* =====================================================
    DESTACAR LINHAS
-========================================= */
+===================================================== */
 
-function destacarLinhas(
-    linhas
-) {
+function destacarLinhas(linhas) {
 
     const reels =
-        document.querySelectorAll(
-            ".reel"
-        );
+        document.querySelectorAll(".reel");
 
 
-    linhas.forEach(
-        linha => {
+    linhas.forEach(linha => {
+
+        if (linha.orientacao === "horizontal") {
+
+            const colunaInicial =
+                linha.inicio;
+
+            const colunaFinal =
+                linha.fim;
 
 
-            /* HORIZONTAL */
-
-            if (
-                linha.tipo ===
-                "horizontal"
+            for (
+                let coluna = colunaInicial;
+                coluna <= colunaFinal;
+                coluna++
             ) {
 
-                for (
-                    let coluna =
-                        linha.inicio;
-
-                    coluna <=
-                        linha.fim;
-
-                    coluna++
-                ) {
-
+                const cell =
                     reels[coluna]
-                        .children[
+                        .querySelectorAll(".symbol-cell")[
                             linha.linha
-                        ]
-                        .classList.add(
-                            "winning-line"
-                        );
-
-                }
-
-            }
+                        ];
 
 
-            /* VERTICAL */
-
-            if (
-                linha.tipo ===
-                "vertical"
-            ) {
-
-                for (
-                    let linhaAtual =
-                        linha.inicio;
-
-                    linhaAtual <=
-                        linha.fim;
-
-                    linhaAtual++
-                ) {
-
-                    reels[
-                        linha.coluna
-                    ]
-                        .children[
-                            linhaAtual
-                        ]
-                        .classList.add(
-                            "winning-line"
-                        );
-
-                }
+                cell.classList.add(
+                    "winning-line",
+                    "winning-horizontal"
+                );
 
             }
 
         }
-    );
+
+
+        else {
+
+            const coluna =
+                linha.coluna;
+
+
+            for (
+                let linhaIndex = linha.inicio;
+                linhaIndex <= linha.fim;
+                linhaIndex++
+            ) {
+
+                const cell =
+                    reels[coluna]
+                        .querySelectorAll(".symbol-cell")[
+                            linhaIndex
+                        ];
+
+
+                cell.classList.add(
+                    "winning-line",
+                    "winning-vertical"
+                );
+
+            }
+
+        }
+
+    });
 
 }
 
 
+/* =====================================================
+   LIMPAR LINHAS
+===================================================== */
 
-/* =========================================================
-   PROGRESSO DA RODADA ESPECIAL
+function limparLinhas() {
 
-   +20% SOMENTE:
+    document
+        .querySelectorAll(".winning-line")
+        .forEach(elemento => {
 
-   3x 7
-   4x 7
-   3x OURO
-   4x OURO
+            elemento.classList.remove(
+                "winning-line",
+                "winning-horizontal",
+                "winning-vertical"
+            );
 
-   HORIZONTAL OU VERTICAL.
+        });
 
-   5x NÃO CONTA.
-========================================================= */
-
-function verificarEspecial(
-    linhas
-) {
-
-    /*
-        Se já existem rodadas especiais,
-        não acumula mais progresso.
-    */
-
-    if (
-        rodadasEspeciais > 0
-    ) {
-
-        return;
-
-    }
+}
 
 
-    /*
-        Procura exatamente 3 ou 4
-        de 7 ou OURO.
-    */
+/* =====================================================
+   VERIFICAR RODADA ESPECIAL
+===================================================== */
 
-    const eventoEspecial =
-        linhas.some(
-            linha => {
+function verificarEspecial(linhas) {
 
-                return (
+    const evento =
+        linhas.some(linha => {
 
-                    (
-                        linha.quantidade === 3 ||
-                        linha.quantidade === 4
-                    )
+            if (
+                linha.quantidade !== 3 &&
+                linha.quantidade !== 4
+            ) {
 
-                    &&
-
-                    (
-                        linha.simbolo === "sete" ||
-                        linha.simbolo === "saco"
-                    )
-
-                );
+                return false;
 
             }
-        );
 
 
-    /*
-        Se não encontrou,
-        não aumenta.
-    */
+            return (
+                linha.simbolo === "sete" ||
+                linha.simbolo === "saco"
+            );
 
-    if (
-        !eventoEspecial
-    ) {
+        });
 
-        return;
+
+    if (!evento) {
+
+        return false;
 
     }
 
-
-    /*
-        AUMENTA 20%.
-    */
 
     progressoEspecial +=
         CONFIG.progressoPorEvento;
 
 
-    /*
-        Limite de 100%.
-    */
+    if (progressoEspecial >= 100) {
 
-    if (
-        progressoEspecial >= 100
-    ) {
+        progressoEspecial = 100;
 
-        progressoEspecial =
-            100;
-
+        rodadasEspeciais =
+            CONFIG.quantidadeRodadasEspeciais;
 
         atualizarInterface();
 
 
-        ativarRodadaEspecial();
+        setTimeout(() => {
+
+            progressoEspecial = 0;
+
+            atualizarInterface();
+
+        }, 600);
 
 
-        return;
+        return true;
 
     }
 
 
     atualizarInterface();
 
-}
-
-
-
-/* =========================================
-   ATIVAR RODADA ESPECIAL
-========================================= */
-
-function ativarRodadaEspecial() {
-
-    rodadasEspeciais =
-        CONFIG.quantidadeRodadasEspeciais;
-
-
-    /*
-        Zera a barra depois
-        de liberar as rodadas.
-    */
-
-    progressoEspecial =
-        0;
-
-
-    result.textContent =
-        "✦ RODADA ESPECIAL DESBLOQUEADA! ✦";
-
-
-    result.style.color =
-        "#ffe45c";
-
-
-    atualizarInterface();
+    return false;
 
 }
 
 
+/* =====================================================
+   CALCULAR PRÊMIO
+===================================================== */
 
-/* =========================================================
-   CALCULAR PRÊMIOS
-
-   SOMENTE 5 IGUAIS PAGAM.
-
-   HORIZONTAL OU VERTICAL.
-========================================================= */
-
-function calcularPremio(
-    linhas,
-    especial
-) {
+function calcularPremio(linhas, apostaAtual, especial) {
 
     let premio = 0;
 
-
-    let jackpotGanho =
-        false;
-
-
-    let mensagem = "";
+    const multiplicadorEspecial =
+        especial ? 2 : 1;
 
 
-    const linhasPagas =
-        new Set();
+    for (const linha of linhas) {
 
+        if (
+            linha.orientacao === "horizontal" &&
+            linha.quantidade === 5
+        ) {
 
-    linhas.forEach(
-        linha => {
+            if (linha.simbolo === "sete") {
 
-
-            /*
-                3 ou 4 NÃO PAGAM.
-            */
-
-            if (
-                linha.quantidade !== 5
-            ) {
-
-                return;
+                premio +=
+                    apostaAtual *
+                    10 *
+                    multiplicadorEspecial;
 
             }
 
-
-            /*
-                Identificador da combinação.
-            */
-
-            const identificador =
-
-                `${linha.tipo}-${linha.simbolo}-${linha.tipo === "horizontal"
-                    ? linha.linha
-                    : linha.coluna
-                }-${linha.inicio}-${linha.fim}`;
-
-
-            /*
-                Evita duplicação.
-            */
-
-            if (
-                linhasPagas.has(
-                    identificador
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            linhasPagas.add(
-                identificador
-            );
-
-
-
-            /* =====================================
-               5x 7
-               JACKPOT
-            ===================================== */
-
-            if (
-                linha.simbolo ===
-                "sete"
+            else if (
+                linha.simbolo === "cereja"
             ) {
 
                 premio +=
-                    jackpot;
-
-
-                jackpotGanho =
-                    true;
-
-
-                mensagem =
-                    `✦ JACKPOT! +${formatarNumero(jackpot)} COINS ✦`;
-
-
-                return;
+                    apostaAtual *
+                    1.5 *
+                    multiplicadorEspecial;
 
             }
 
-
-
-            /* =====================================
-               5x CEREJA
-               5x DIAMANTE
-               5x OURO
-            ===================================== */
-
-            const multiplicador =
-                CONFIG.pagamento[
-                    linha.simbolo
-                ];
-
-
-            if (
-                multiplicador
+            else if (
+                linha.simbolo === "diamante"
             ) {
 
-                /*
-                    Rodada especial:
-                    prêmio dobrado.
-                */
+                premio +=
+                    apostaAtual *
+                    1.5 *
+                    multiplicadorEspecial;
 
-                const multiplicadorEspecial =
-                    especial
-                        ? 2
-                        : 1;
+            }
 
-
-                const valor =
-                    Math.floor(
-
-                        aposta *
-
-                        multiplicador *
-
-                        multiplicadorEspecial
-
-                    );
-
+            else if (
+                linha.simbolo === "saco"
+            ) {
 
                 premio +=
-                    valor;
-
-
-                mensagem =
-                    `5x ${SYMBOLS[linha.simbolo].nome} — GANHOU ${formatarNumero(valor)} COINS!`;
+                    apostaAtual *
+                    2 *
+                    multiplicadorEspecial;
 
             }
 
         }
-    );
 
 
-    return {
+        else if (
+            linha.orientacao === "vertical" &&
+            linha.quantidade === 4
+        ) {
 
-        premio,
+            premio +=
+                apostaAtual *
+                2 *
+                multiplicadorEspecial;
 
-        jackpotGanho,
+        }
 
-        mensagem
+    }
 
-    };
+
+    return premio;
 
 }
 
 
+/* =====================================================
+   TEXTO DO RESULTADO
+===================================================== */
 
-/* =========================================
-   GIRAR
-========================================= */
+function criarMensagemResultado(
+    linhas,
+    premio,
+    especial
+) {
+
+    if (premio > 0) {
+
+        const valor =
+            premio.toLocaleString(
+                "pt-BR",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+
+        const jackpot =
+            linhas.some(linha =>
+                linha.orientacao === "horizontal" &&
+                linha.quantidade === 5 &&
+                linha.simbolo === "sete"
+            );
+
+
+        if (jackpot) {
+
+            return `✦ JACKPOT — GANHOU ${valor} COINS`;
+
+        }
+
+
+        const linhaPremiada =
+            linhas.find(linha => {
+
+                return (
+                    (
+                        linha.orientacao === "horizontal" &&
+                        linha.quantidade === 5
+                    ) ||
+                    (
+                        linha.orientacao === "vertical" &&
+                        linha.quantidade === 4
+                    )
+                );
+
+            });
+
+
+        if (linhaPremiada) {
+
+            const nome =
+                nomeSimbolo(
+                    linhaPremiada.simbolo
+                );
+
+
+            return `${linhaPremiada.quantidade}x ${nome} — GANHOU ${valor} COINS`;
+
+        }
+
+
+        return `VOCÊ GANHOU ${valor} COINS`;
+
+    }
+
+
+    const eventoEspecial =
+        linhas.some(linha => {
+
+            return (
+                (
+                    linha.quantidade === 3 ||
+                    linha.quantidade === 4
+                ) &&
+                (
+                    linha.simbolo === "sete" ||
+                    linha.simbolo === "saco"
+                )
+            );
+
+        });
+
+
+    if (eventoEspecial) {
+
+        return "✦ RODADA ESPECIAL +20%";
+
+    }
+
+
+    return "NÃO GANHOU NADA — TENTE NOVAMENTE!";
+
+}
+
+
+/* =====================================================
+   NOME DOS SÍMBOLOS
+===================================================== */
+
+function nomeSimbolo(simbolo) {
+
+    switch (simbolo) {
+
+        case "cereja":
+            return "CEREJA";
+
+        case "diamante":
+            return "DIAMANTE";
+
+        case "saco":
+            return "OURO";
+
+        case "sete":
+            return "7";
+
+        default:
+            return "";
+
+    }
+
+}
+
+
+/* =====================================================
+   MENSAGEM GRANDE DE GANHO
+===================================================== */
+
+function mostrarMensagemGanho(valor) {
+
+    let mensagem =
+        document.getElementById("winMessage");
+
+
+    if (!mensagem) {
+
+        mensagem =
+            document.createElement("div");
+
+        mensagem.id =
+            "winMessage";
+
+        mensagem.className =
+            "win-message";
+
+        document.body.appendChild(
+            mensagem
+        );
+
+    }
+
+
+    const valorFormatado =
+        valor.toLocaleString(
+            "pt-BR",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+
+
+    mensagem.innerHTML =
+        `
+        VOCÊ GANHOU
+        <br>
+        <span>
+            ${valorFormatado} COINS
+        </span>
+        `;
+
+
+    mensagem.classList.add("show");
+
+
+    setTimeout(() => {
+
+        mensagem.classList.remove("show");
+
+    }, 1200);
+
+}
+
+
+/* =====================================================
+   VERIFICAR JACKPOT
+===================================================== */
+
+function verificarJackpot(linhas) {
+
+    return linhas.some(linha => {
+
+        return (
+            linha.orientacao === "horizontal" &&
+            linha.quantidade === 5 &&
+            linha.simbolo === "sete"
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   RODADA
+===================================================== */
 
 async function girar() {
 
-    /*
-        Não permite dois giros
-        ao mesmo tempo.
-    */
-
-    if (
-        jogando
-    ) {
+    if (girando) {
 
         return;
 
     }
 
 
-    /*
-        Verifica saldo.
-    */
+    let apostaDigitada =
+        Number(betValue.value);
+
 
     if (
-        saldo < aposta
+        !Number.isFinite(apostaDigitada) ||
+        apostaDigitada < CONFIG.apostaMinima
     ) {
+
+        apostaDigitada =
+            CONFIG.apostaMinima;
+
+    }
+
+
+    apostaDigitada =
+        Math.round(
+            apostaDigitada /
+            CONFIG.incrementoAposta
+        ) *
+        CONFIG.incrementoAposta;
+
+
+    aposta =
+        apostaDigitada;
+
+
+    betValue.value =
+        aposta;
+
+
+    if (saldo < aposta) {
 
         result.textContent =
-            "SALDO INSUFICIENTE";
-
-
-        result.style.color =
-            "#ff5c5c";
-
+            "SALDO INSUFICIENTE!";
 
         return;
 
     }
 
 
-    jogando =
-        true;
+    girando = true;
+
+    spinButton.disabled = true;
 
 
-    spinButton.disabled =
-        true;
+    machine.classList.remove(
+        "jackpot-effect"
+    );
 
+    limparLinhas();
 
-    /*
-        Verifica se é rodada especial.
-    */
 
     const especial =
         rodadasEspeciais > 0;
 
 
-    /*
-        Desconta aposta.
-    */
-
-    saldo -=
-        aposta;
-
+    saldo -= aposta;
 
     atualizarInterface();
 
 
-    /*
-        Roda os slots.
-    */
+    if (especial) {
 
-    await animarReels(
-        especial
-    );
+        machine.classList.add(
+            "special-active"
+        );
 
+        await animarRolos(
+            CONFIG.duracaoRodadaEspecial
+        );
 
-    /*
-        Gera resultado definitivo.
-    */
+    }
+
+    else {
+
+        machine.classList.remove(
+            "special-active"
+        );
+
+        await animarRolos(1000);
+
+    }
+
 
     const grade =
         gerarGrade();
 
 
-    renderizarGrade(
+    mostrarGrade(
         grade
     );
 
-
-    /*
-        Analisa horizontal
-        e vertical.
-    */
 
     const linhas =
         analisarLinhas(
@@ -1252,138 +1050,60 @@ async function girar() {
         );
 
 
-    /*
-        Mostra as linhas.
-    */
-
     destacarLinhas(
         linhas
     );
 
-
-    /*
-        Verifica +20%.
-    */
 
     verificarEspecial(
         linhas
     );
 
 
-    /*
-        Calcula prêmio.
-    */
-
-    const resultado =
+    const premio =
         calcularPremio(
             linhas,
+            aposta,
             especial
         );
 
 
+    if (premio > 0) {
 
-    /* =========================================
-       GANHOU
-    ========================================= */
-
-    if (
-        resultado.premio > 0
-    ) {
-
-        saldo +=
-            resultado.premio;
-
-
-        /*
-            JACKPOT
-        */
-
-        if (
-            resultado.jackpotGanho
-        ) {
-
-            machine.classList.add(
-                "jackpot-effect"
-            );
-
-
-            result.textContent =
-                resultado.mensagem;
-
-
-            result.style.color =
-                "#fff09a";
-
-
-            await esperar(
-                2000
-            );
-
-
-            machine.classList.remove(
-                "jackpot-effect"
-            );
-
-        }
-
-
-        /*
-            PRÊMIO NORMAL
-        */
-
-        else {
-
-            machine.classList.add(
-                "win-effect"
-            );
-
-
-            result.textContent =
-                resultado.mensagem;
-
-
-            result.style.color =
-                "#ffe45c";
-
-
-            await esperar(
-                1000
-            );
-
-
-            machine.classList.remove(
-                "win-effect"
-            );
-
-        }
+        saldo += premio;
 
     }
 
 
-    /* =========================================
-       SEM PRÊMIO
-    ========================================= */
+    result.textContent =
+        criarMensagemResultado(
+            linhas,
+            premio,
+            especial
+        );
 
-    else {
 
-        /*
-            Não mostra mensagem
-            de prêmio.
-        */
+    if (
+        verificarJackpot(linhas)
+    ) {
 
-        result.textContent =
-            "";
+        machine.classList.add(
+            "jackpot-effect"
+        );
 
     }
 
 
-    /*
-        Consome uma rodada especial.
-    */
+    if (premio > 0) {
 
-    if (
-        especial
-    ) {
+        mostrarMensagemGanho(
+            premio
+        );
+
+    }
+
+
+    if (especial) {
 
         rodadasEspeciais--;
 
@@ -1393,16 +1113,18 @@ async function girar() {
     atualizarInterface();
 
 
-    /*
-        Rodada normal espera 2 segundos.
+    if (especial) {
 
-        Especial já dura aproximadamente
-        4 segundos.
-    */
+        await esperar(500);
 
-    if (
-        !especial
-    ) {
+        machine.classList.remove(
+            "special-active"
+        );
+
+    }
+
+
+    if (!especial) {
 
         await esperar(
             CONFIG.delayEntreRodadas
@@ -1411,57 +1133,45 @@ async function girar() {
     }
 
 
-    jogando =
-        false;
+    girando = false;
+
+    spinButton.disabled = false;
 
 
-    spinButton.disabled =
-        false;
+    if (autoGiro) {
 
+        if (saldo >= aposta) {
 
+            await esperar(300);
 
-    /* =========================================
-       AUTO GIRO
-    ========================================= */
+            girar();
 
-    if (
-        autoGirando &&
-        saldo >= aposta
-    ) {
+        }
 
-        girar();
+        else {
 
-    }
+            autoGiro = false;
 
-    else {
+            autoButton.textContent =
+                "AUTO GIRO";
 
-        autoGirando =
-            false;
-
-
-        autoButton.textContent =
-            "AUTO GIRO";
+        }
 
     }
 
 }
 
 
-
-/* =========================================
-   BOTÃO -
-========================================= */
+/* =====================================================
+   DIMINUIR APOSTA
+===================================================== */
 
 decreaseBet.addEventListener(
     "click",
     () => {
 
-        if (
-            jogando
-        ) {
-
+        if (girando) {
             return;
-
         }
 
 
@@ -1480,94 +1190,117 @@ decreaseBet.addEventListener(
         }
 
 
-        atualizarInterface();
+        betValue.value =
+            aposta;
 
     }
 );
 
 
-
-/* =========================================
-   BOTÃO +
-========================================= */
+/* =====================================================
+   AUMENTAR APOSTA
+===================================================== */
 
 increaseBet.addEventListener(
     "click",
     () => {
 
-        if (
-            jogando
-        ) {
-
+        if (girando) {
             return;
-
         }
 
 
-        if (
-            aposta +
-            CONFIG.incrementoAposta
-            <= saldo
-        ) {
-
-            aposta +=
-                CONFIG.incrementoAposta;
-
-        }
+        aposta +=
+            CONFIG.incrementoAposta;
 
 
-        atualizarInterface();
+        betValue.value =
+            aposta;
 
     }
 );
 
 
+/* =====================================================
+   DIGITAR APOSTA
+===================================================== */
 
-/* =========================================
-   BOTÃO GIRAR
-========================================= */
+betValue.addEventListener(
+    "change",
+    () => {
 
-spinButton.addEventListener(
-    "click",
-    girar
+        let valor =
+            Number(
+                betValue.value
+            );
+
+
+        if (
+            !Number.isFinite(valor) ||
+            valor < CONFIG.apostaMinima
+        ) {
+
+            valor =
+                CONFIG.apostaMinima;
+
+        }
+
+
+        valor =
+            Math.round(
+                valor /
+                CONFIG.incrementoAposta
+            ) *
+            CONFIG.incrementoAposta;
+
+
+        aposta =
+            valor;
+
+
+        betValue.value =
+            aposta;
+
+    }
 );
 
 
+/* =====================================================
+   GIRAR
+===================================================== */
 
-/* =========================================
+spinButton.addEventListener(
+    "click",
+    () => {
+
+        girar();
+
+    }
+);
+
+
+/* =====================================================
    AUTO GIRO
-========================================= */
+===================================================== */
 
 autoButton.addEventListener(
     "click",
     () => {
 
-        if (
-            jogando
-        ) {
-
-            autoGirando =
-                !autoGirando;
-
-        }
-
-        else {
-
-            autoGirando =
-                true;
+        autoGiro =
+            !autoGiro;
 
 
-            girar();
-
-        }
-
-
-        if (
-            autoGirando
-        ) {
+        if (autoGiro) {
 
             autoButton.textContent =
                 "PARAR AUTO";
+
+            if (!girando) {
+
+                girar();
+
+            }
 
         }
 
@@ -1582,143 +1315,117 @@ autoButton.addEventListener(
 );
 
 
-
-/* =========================================
+/* =====================================================
    DEPOSITAR
-========================================= */
+===================================================== */
 
-document
-    .getElementById(
-        "depositButton"
-    )
-    .addEventListener(
-        "click",
-        () => {
+depositButton.addEventListener(
+    "click",
+    () => {
 
-            const input =
-                document.getElementById(
-                    "depositInput"
-                );
+        const valor =
+            Number(
+                depositInput.value
+            );
 
 
-            const valor =
-                Number(
-                    input.value
-                );
+        if (
+            !Number.isFinite(valor) ||
+            valor <= 0
+        ) {
 
-
-            if (
-                valor <= 0
-            ) {
-
-                return;
-
-            }
-
-
-            saldo +=
-                valor;
-
-
-            input.value =
-                "";
-
-
-            atualizarInterface();
-
-
-            result.textContent =
-                `+${formatarNumero(valor)} COINS ADICIONADOS`;
-
-
-            result.style.color =
-                "#62e58b";
+            return;
 
         }
-    );
 
 
+        saldo += valor;
 
-/* =========================================
+
+        depositInput.value = "";
+
+
+        atualizarInterface();
+
+
+        result.textContent =
+            `SALDO RECARREGADO: ${valor.toLocaleString(
+                "pt-BR",
+                {
+                    minimumFractionDigits: 2
+                }
+            )} COINS`;
+
+    }
+);
+
+
+/* =====================================================
    SACAR
-========================================= */
+===================================================== */
 
-document
-    .getElementById(
-        "withdrawButton"
-    )
-    .addEventListener(
-        "click",
-        () => {
+withdrawButton.addEventListener(
+    "click",
+    () => {
 
-            const input =
-                document.getElementById(
-                    "withdrawInput"
-                );
+        const valor =
+            Number(
+                withdrawInput.value
+            );
 
 
-            const valor =
-                Number(
-                    input.value
-                );
+        if (
+            !Number.isFinite(valor) ||
+            valor <= 0
+        ) {
 
-
-            if (
-                valor <= 0
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                valor > saldo
-            ) {
-
-                result.textContent =
-                    "SALDO INSUFICIENTE";
-
-
-                result.style.color =
-                    "#ff5c5c";
-
-
-                return;
-
-            }
-
-
-            saldo -=
-                valor;
-
-
-            input.value =
-                "";
-
-
-            atualizarInterface();
-
-
-            result.textContent =
-                `-${formatarNumero(valor)} COINS SACADOS`;
-
-
-            result.style.color =
-                "#ffb0b0";
+            return;
 
         }
-    );
 
 
+        if (valor > saldo) {
 
-/* =========================================
+            result.textContent =
+                "SALDO INSUFICIENTE PARA SACAR!";
+
+            return;
+
+        }
+
+
+        saldo -= valor;
+
+
+        withdrawInput.value = "";
+
+
+        atualizarInterface();
+
+
+        result.textContent =
+            `SAQUE REALIZADO: ${valor.toLocaleString(
+                "pt-BR",
+                {
+                    minimumFractionDigits: 2
+                }
+            )} COINS`;
+
+    }
+);
+
+
+/* =====================================================
    INICIALIZAÇÃO
-========================================= */
+===================================================== */
 
 atualizarInterface();
 
 
-renderizarGrade(
-    gerarGrade()
+const gradeInicial =
+    gerarGrade();
+
+
+mostrarGrade(
+    gradeInicial
 );
