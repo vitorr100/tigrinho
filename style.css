@@ -14,21 +14,16 @@
 ========================================= */
 
 body {
-
     width: 100%;
     height: 100vh;
 
     display: flex;
-
     justify-content: center;
     align-items: center;
 
     padding: 12px;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 
     background:
         radial-gradient(
@@ -49,11 +44,8 @@ body {
 ========================================= */
 
 .game {
-
     width: 1100px;
-
     max-width: 95vw;
-
     height: 94vh;
 
     padding: 20px 30px;
@@ -67,16 +59,11 @@ body {
         );
 
     border: 3px solid #d99a25;
-
     border-radius: 25px;
 
     box-shadow:
-
-        0 0 35px
-        rgba(255, 170, 40, 0.35),
-
-        inset 0 0 35px
-        rgba(0, 0, 0, 0.75);
+        0 0 35px rgba(255, 170, 40, 0.35),
+        inset 0 0 35px rgba(0, 0, 0, 0.75);
 
     display: flex;
     flex-direction: column;
@@ -88,13 +75,10 @@ body {
 ========================================= */
 
 .top {
-
     width: 100%;
 
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
 
     margin-bottom: 10px;
@@ -106,9 +90,7 @@ body {
 ========================================= */
 
 .logo {
-
     font-size: 34px;
-
     font-weight: 900;
 
     letter-spacing: 2px;
@@ -116,11 +98,8 @@ body {
     color: #ffd75a;
 
     text-shadow:
-
         0 3px 4px #000,
-
-        0 0 12px
-        rgba(255, 190, 50, 0.25);
+        0 0 12px rgba(255, 190, 50, 0.25);
 }
 
 
@@ -129,31 +108,24 @@ body {
 ========================================= */
 
 .balance-area {
-
     position: relative;
-
     z-index: 100;
 }
 
 
 .balance {
-
     min-width: 165px;
 
     padding: 8px 20px;
 
     display: flex;
-
     flex-direction: column;
-
     justify-content: center;
-
     align-items: center;
 
     gap: 2px;
 
     border-radius: 9px;
-
     border: 1px solid #c78e24;
 
     background:
@@ -168,24 +140,19 @@ body {
     cursor: pointer;
 
     box-shadow:
-        inset 0 0 8px
-        rgba(0, 0, 0, 0.7);
+        inset 0 0 8px rgba(0, 0, 0, 0.7);
 
-    transition:
-        transform 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
 
 .balance:hover {
-
     transform: scale(1.03);
 }
 
 
 .balance small {
-
     font-size: 10px;
-
     font-weight: 700;
 
     color: #c9a85c;
@@ -195,9 +162,7 @@ body {
 
 
 .balance strong {
-
     font-size: 19px;
-
     color: #ffe35d;
 }
 
@@ -207,11 +172,9 @@ body {
 ========================================= */
 
 .balance-menu {
-
     position: absolute;
 
     top: calc(100% + 5px);
-
     right: 0;
 
     width: 240px;
@@ -226,7 +189,6 @@ body {
         );
 
     border: 1px solid #d49a28;
-
     border-radius: 10px;
 
     display: none;
@@ -234,28 +196,23 @@ body {
     z-index: 1000;
 
     box-shadow:
-        0 10px 25px
-        rgba(0, 0, 0, 0.7);
+        0 10px 25px rgba(0, 0, 0, 0.7);
 }
 
 
 .balance-area:hover .balance-menu,
 .balance-area:focus-within .balance-menu {
-
     display: block;
 }
 
 
 .balance-action {
-
     padding: 6px;
-
     margin-bottom: 5px;
 }
 
 
 .balance-action strong {
-
     display: block;
 
     margin-bottom: 7px;
@@ -267,23 +224,18 @@ body {
 
 
 .value-input {
-
     display: flex;
-
     gap: 5px;
 }
 
 
 .value-input input {
-
     width: 100%;
-
     min-width: 0;
 
     padding: 8px;
 
     border: 1px solid #9c6d17;
-
     border-radius: 6px;
 
     outline: none;
@@ -295,11 +247,9 @@ body {
 
 
 .value-input button {
-
     padding: 8px;
 
     border: none;
-
     border-radius: 6px;
 
     background: #a66c0a;
@@ -307,7 +257,6 @@ body {
     color: white;
 
     font-size: 9px;
-
     font-weight: 800;
 
     cursor: pointer;
@@ -315,7 +264,6 @@ body {
 
 
 .value-input button:hover {
-
     background: #d59618;
 }
 
@@ -325,17 +273,13 @@ body {
 ========================================= */
 
 .machine {
-
     width: 850px;
-
     max-width: 100%;
 
     margin: 0 auto;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
 
     position: relative;
@@ -347,11 +291,9 @@ body {
 ========================================= */
 
 .special-round {
-
     width: 100%;
 
     margin-top: 4px;
-
     margin-bottom: 9px;
 
     padding: 4px 0;
@@ -359,7 +301,6 @@ body {
 
 
 .special-title {
-
     margin-bottom: 5px;
 
     text-align: center;
@@ -367,7 +308,6 @@ body {
     color: #ffe06a;
 
     font-size: 15px;
-
     font-weight: 900;
 
     letter-spacing: 1.5px;
@@ -376,8 +316,7 @@ body {
 
     text-shadow:
         0 2px 4px #000,
-        0 0 10px
-        rgba(255, 193, 7, 0.55);
+        0 0 10px rgba(255, 193, 7, 0.55);
 }
 
 
@@ -386,11 +325,9 @@ body {
 ========================================= */
 
 .progress-area {
-
     width: 100%;
 
     display: flex;
-
     align-items: center;
 
     gap: 10px;
@@ -402,7 +339,6 @@ body {
 ========================================= */
 
 .progress-bar {
-
     flex: 1;
 
     height: 18px;
@@ -421,12 +357,8 @@ body {
         );
 
     box-shadow:
-
-        inset 0 2px 5px
-        rgba(0, 0, 0, 0.8),
-
-        0 2px 5px
-        rgba(0, 0, 0, 0.5);
+        inset 0 2px 5px rgba(0, 0, 0, 0.8),
+        0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -435,9 +367,7 @@ body {
 ========================================= */
 
 .progress-fill {
-
     width: 0%;
-
     height: 100%;
 
     border-radius: 10px;
@@ -452,15 +382,10 @@ body {
         );
 
     box-shadow:
+        0 0 8px rgba(255, 210, 60, 0.9),
+        inset 0 1px 2px rgba(255, 255, 255, 0.7);
 
-        0 0 8px
-        rgba(255, 210, 60, 0.9),
-
-        inset 0 1px 2px
-        rgba(255, 255, 255, 0.7);
-
-    transition:
-        width 0.5s ease;
+    transition: width 0.5s ease;
 }
 
 
@@ -469,13 +394,11 @@ body {
 ========================================= */
 
 .progress-value {
-
     min-width: 40px;
 
     color: #ffe36b;
 
     font-size: 13px;
-
     font-weight: 900;
 
     text-align: right;
@@ -490,7 +413,6 @@ body {
 ========================================= */
 
 .slot-machine {
-
     width: 100%;
 
     padding: 11px;
@@ -508,11 +430,8 @@ body {
         );
 
     box-shadow:
-
         inset 0 0 15px #3d1300,
-
-        0 12px 25px
-        rgba(0, 0, 0, 0.65);
+        0 12px 25px rgba(0, 0, 0, 0.65);
 }
 
 
@@ -521,9 +440,7 @@ body {
 ========================================= */
 
 .slots {
-
     width: 100%;
-
     height: 425px;
 
     display: grid;
@@ -540,8 +457,7 @@ body {
     border: 3px solid #4e1c05;
 
     box-shadow:
-        inset 0 0 25px
-        rgba(0, 0, 0, 0.9);
+        inset 0 0 25px rgba(0, 0, 0, 0.9);
 }
 
 
@@ -550,7 +466,6 @@ body {
 ========================================= */
 
 .reel {
-
     display: grid;
 
     grid-template-rows:
@@ -570,7 +485,6 @@ body {
 
 
 .reel:last-child {
-
     border-right: none;
 }
 
@@ -580,15 +494,12 @@ body {
 ========================================= */
 
 .reel > div {
-
     width: 100%;
-
     height: 100%;
 
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     overflow: visible;
@@ -606,9 +517,7 @@ body {
 ========================================= */
 
 .reel > div img {
-
     width: 78px;
-
     height: 78px;
 
     object-fit: contain;
@@ -630,21 +539,17 @@ body {
 ========================================= */
 
 .seven {
-
     width: 100%;
-
     height: 100%;
 
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     color: #ffffff;
 
     font-size: 58px;
-
     font-weight: 900;
 
     line-height: 1;
@@ -662,13 +567,11 @@ body {
 ========================================= */
 
 .symbol-cell.winning-line {
-
     position: relative;
 
     z-index: 10;
 
     box-shadow:
-
         inset 0 0 10px
         rgba(255, 220, 70, 0.4),
 
@@ -682,29 +585,26 @@ body {
 ========================================= */
 
 .symbol-cell.winning-horizontal::after {
-
     content: "";
 
     position: absolute;
 
     left: 3px;
-
     right: 3px;
 
     top: 50%;
 
     height: 4px;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
     background: #ffe45c;
 
     border-radius: 5px;
 
     box-shadow:
-
         0 0 6px #ffd000,
-
         0 0 12px
         rgba(255, 190, 0, 0.9);
 
@@ -717,29 +617,26 @@ body {
 ========================================= */
 
 .symbol-cell.winning-vertical::after {
-
     content: "";
 
     position: absolute;
 
     top: 3px;
-
     bottom: 3px;
 
     left: 50%;
 
     width: 4px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     background: #ffe45c;
 
     border-radius: 5px;
 
     box-shadow:
-
         0 0 6px #ffd000,
-
         0 0 12px
         rgba(255, 190, 0, 0.9);
 
@@ -752,9 +649,7 @@ body {
 ========================================= */
 
 .result {
-
     width: 100%;
-
     height: 50px;
 
     margin-top: 8px;
@@ -762,7 +657,6 @@ body {
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     border:
@@ -782,7 +676,6 @@ body {
     overflow: hidden;
 
     font-size: 14px;
-
     font-weight: 700;
 
     text-align: center;
@@ -794,11 +687,9 @@ body {
 ========================================= */
 
 .controls {
-
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     gap: 15px;
@@ -812,15 +703,12 @@ body {
 ========================================= */
 
 .bet-button {
-
     width: 52px;
-
     height: 52px;
 
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     border-radius: 50%;
@@ -838,7 +726,6 @@ body {
     color: white;
 
     font-size: 28px;
-
     font-weight: 700;
 
     cursor: pointer;
@@ -853,13 +740,11 @@ body {
 
 
 .bet-button:hover {
-
     transform: scale(1.08);
 }
 
 
 .bet-button:active {
-
     transform: scale(0.95);
 }
 
@@ -869,7 +754,6 @@ body {
 ========================================= */
 
 .bet {
-
     min-width: 165px;
 
     padding: 8px 20px;
@@ -895,13 +779,11 @@ body {
 
 
 .bet small {
-
     display: block;
 
     margin-bottom: 2px;
 
     font-size: 10px;
-
     font-weight: 700;
 
     color: #c9a85c;
@@ -912,14 +794,13 @@ body {
 
 /* =========================================
    APOSTA EDITÁVEL
+   SEM SETINHAS
 ========================================= */
 
 .bet-input {
-
     width: 100px;
 
     border: none;
-
     outline: none;
 
     background: transparent;
@@ -927,15 +808,28 @@ body {
     color: #ffe35d;
 
     font-size: 19px;
-
     font-weight: 700;
 
     text-align: center;
+
+    /* Remove setinhas no Firefox */
+    -moz-appearance: textfield;
+
+    /* Remove aparência padrão */
+    appearance: textfield;
+}
+
+
+/* Remove setinhas no Chrome / Edge / Opera */
+.bet-input::-webkit-inner-spin-button,
+.bet-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+
+    margin: 0;
 }
 
 
 .bet-input:focus {
-
     color: #ffffff;
 
     text-shadow:
@@ -949,9 +843,7 @@ body {
 ========================================= */
 
 .spin-button {
-
     width: 158px;
-
     height: 66px;
 
     margin-top: 17px;
@@ -972,7 +864,6 @@ body {
     color: white;
 
     font-size: 19px;
-
     font-weight: 900;
 
     letter-spacing: 1px;
@@ -980,9 +871,7 @@ body {
     cursor: pointer;
 
     box-shadow:
-
         0 6px 0 #063d06,
-
         0 10px 18px
         rgba(0, 0, 0, 0.55);
 
@@ -992,13 +881,11 @@ body {
 
 
 .spin-button:hover {
-
     transform: scale(1.05);
 }
 
 
 .spin-button:active {
-
     transform:
         scale(0.97)
         translateY(3px);
@@ -1006,7 +893,6 @@ body {
 
 
 .spin-button:disabled {
-
     opacity: 0.6;
 
     cursor: not-allowed;
@@ -1018,7 +904,6 @@ body {
 ========================================= */
 
 .auto-button {
-
     margin-top: 12px;
 
     padding:
@@ -1039,7 +924,6 @@ body {
     color: #ffe07a;
 
     font-size: 13px;
-
     font-weight: 800;
 
     letter-spacing: 0.5px;
@@ -1053,7 +937,6 @@ body {
 
 
 .auto-button:hover {
-
     background:
         linear-gradient(
             180deg,
@@ -1070,7 +953,6 @@ body {
 ========================================= */
 
 .special-active .symbol-cell {
-
     animation:
         goldenGlow 0.8s infinite alternate;
 }
@@ -1079,7 +961,6 @@ body {
 @keyframes goldenGlow {
 
     from {
-
         box-shadow:
             inset 0 0 10px
             rgba(0, 0, 0, 0.8),
@@ -1089,7 +970,6 @@ body {
     }
 
     to {
-
         box-shadow:
             inset 0 0 10px
             rgba(0, 0, 0, 0.8),
@@ -1105,7 +985,6 @@ body {
 ========================================= */
 
 .jackpot-effect {
-
     animation:
         jackpotShake 0.12s infinite;
 }
@@ -1140,11 +1019,9 @@ body {
 ========================================= */
 
 .win-message {
-
     position: fixed;
 
     left: 50%;
-
     top: 50%;
 
     transform:
@@ -1177,13 +1054,11 @@ body {
     text-align: center;
 
     font-size: 28px;
-
     font-weight: 900;
 
     letter-spacing: 2px;
 
     box-shadow:
-
         0 0 25px
         rgba(255, 200, 0, 0.8),
 
@@ -1196,7 +1071,6 @@ body {
 
 
 .win-message.show {
-
     opacity: 1;
 
     transform:
@@ -1216,21 +1090,17 @@ body {
     }
 
     .game {
-
         height: auto;
 
         min-height: 92vh;
     }
 
     .slots {
-
         height: 385px;
     }
 
     .reel > div img {
-
         width: 60px;
-
         height: 60px;
     }
 }
@@ -1239,16 +1109,13 @@ body {
 @media (max-width: 700px) {
 
     body {
-
         padding: 10px;
 
         align-items: flex-start;
     }
 
     .game {
-
         width: 100%;
-
         max-width: 100%;
 
         height: auto;
@@ -1259,24 +1126,19 @@ body {
     }
 
     .logo {
-
         font-size: 25px;
     }
 
     .slots {
-
         height: 365px;
     }
 
     .reel > div img {
-
         width: 45px;
-
         height: 45px;
     }
 
     .seven {
-
         font-size: 42px;
     }
 }
@@ -1285,65 +1147,51 @@ body {
 @media (max-width: 500px) {
 
     .logo {
-
         font-size: 21px;
     }
 
     .balance {
-
         min-width: 120px;
     }
 
     .slots {
-
         height: 335px;
     }
 
     .reel > div img {
-
         width: 35px;
-
         height: 35px;
     }
 
     .seven {
-
         font-size: 32px;
     }
 
     .controls {
-
         gap: 10px;
     }
 
     .bet-button {
-
         width: 44px;
-
         height: 44px;
 
         font-size: 24px;
     }
 
     .bet {
-
         min-width: 120px;
     }
 
     .spin-button {
-
         width: 140px;
-
         height: 60px;
     }
 
     .special-title {
-
         font-size: 13px;
     }
 
     .progress-bar {
-
         height: 16px;
     }
 }
